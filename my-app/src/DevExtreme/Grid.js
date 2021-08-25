@@ -2,7 +2,7 @@
 /*global FB*/
 
 import React from 'react';
-import { DataGrid, Column, Editing, Scrolling, Lookup, Summary, TotalItem } from 'devextreme-react/data-grid';
+import { DataGrid, Editing, Scrolling, Lookup, Summary, TotalItem } from 'devextreme-react/data-grid';
 import { Button } from 'devextreme-react/button';
 import { SelectBox } from 'devextreme-react/select-box';
 
@@ -18,40 +18,24 @@ class Grid extends React.Component {
     super(props);
     this.state = {
       fbData: null,
-      // ordersData: new CustomStore({
-      //   key: 'OrderID',
-      //   load: () => this.sendRequest(`${URL}`, 'GET'),
-      //   insert: (values) => this.sendRequest(`${URL}`, 'POST', {
-      //     values: JSON.stringify(values)
-      //   }),
-      //   update: (key, values) => this.sendRequest(`${URL}`, 'PUT', {
-      //     key: key,
-      //     values: JSON.stringify(values)
-      //   }),
-      //   remove: (key) => this.sendRequest(`${URL}`, 'DELETE', {
-      //     key: key
-      //   })
-      // }),
+      ordersData: new CustomStore({
+        key: 'OrderID',
+        load: () => this.sendRequest(`${URL}`, 'GET'),
+      }),
       requests: [],
       refreshMode: 'reshape'
     };
     this.clearRequests = this.clearRequests.bind(this);
     this.handleRefreshModeChange = this.handleRefreshModeChange.bind(this);
-  }
 
-componentDidMount() {
-  FB.api('/372848021248529', function(response) {
-    console.log(response);
-  });
-
-  // var body = 'Reading JS SDK documentation';
-  // FB.api('/me/feed', 'post', { message: body }, function(response) {
-  //   if (!response || response.error) {
-  //     console.log('Error occured');
-  //   } else {
-  //     console.log('Post ID: ' + response.id);
-  //   }
-  // });
+  var body = 'Reading JS SDK documentation';
+  FB.api('/me/feed', 'post', { message: body }, function(response) {
+    if (!response || response.error) {
+      console.log('Error occured');
+    } else {
+      console.log('Post ID: ' + response.id);
+    }
+  })
 }
 
   sendRequest(url, method, data) {
