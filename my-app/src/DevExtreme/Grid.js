@@ -37,14 +37,21 @@ FB.api('/170107151801959/feed', 'GET', {}, (response) => {
       <Column
         dataField="message"
         dataType="string"
+        // cellRender={cellRender}
       />        
       <Column
         dataField="story"
         dataType="string"
+        cellRender={cellRender}
       />
     </DataGrid>
     );
   }
+}
+
+function cellRender(data) {
+  console.log(data.row.values)
+  return <img src={data.row.values} />;
 }
 
 export default Grid;
