@@ -1,51 +1,48 @@
-
 /*global FB*/
-
 import React from 'react';
-import { DataGrid, Editing, Scrolling, Lookup, Summary, TotalItem } from 'devextreme-react/data-grid';
-import { Button } from 'devextreme-react/button';
-import { SelectBox } from 'devextreme-react/select-box';
-
-import CustomStore from 'devextreme/data/custom_store';
-import { formatDate } from 'devextreme/localization';
-import 'whatwg-fetch';
-
-const URL = 'https://www.facebook.com/Feeds-Tester-170107151801959/';
-const REFRESH_MODES = ['full', 'reshape', 'repaint'];
-
+import DataGrid, { Column, SearchPanel, Grouping, Paging } from 'devextreme-react/data-grid';
 class Grid extends React.Component {
-  constructor(props) {
+    constructor(props) {
     super(props);
     this.state = {
-      fbData: null,
+      fbData: null
     };
-    // calling from the api
-  FB.api(
-    '/170107151801959/feed', 'GET', {}, function(response) {
-      console.log('GET response: ', response.data)
-        // Insert your code here
-        this.setState({
-          'fbData': response.data
-        })
-    }
-  );
 
-}
+// calling from the api
+FB.api('/170107151801959/feed', 'GET', {}, (response) => {
+    console.log('response: ', response);
+      this.setState({
+        'fbData': response.data
+      })
+})}
 
   render() {
     return (
-      <React.Fragment>
-        <DataGrid
-          id="grid"
-          showBorders={true}
-          dataSource={this.state.fbData}
-          repaintChangesOnly={true}
-        >
-          <Scrolling
-            mode="virtual"
-          />
-        </DataGrid>
-      </React.Fragment>
+    <DataGrid 
+        id="grid-container"
+        dataSource={this.state.fbData}
+        keyExpr="id"
+        showBorders={true}
+        focusedRowEnabled={true}
+      >
+      <SearchPanel 
+        visible={true} 
+      />
+      <Grouping 
+        autoExpandAll={this.state.autoExpandAll} 
+      />
+      <Paging 
+        defaultPageSize={10} 
+      />
+      <Column
+        dataField="message"
+        dataType="string"
+      />        
+      <Column
+        dataField="story"
+        dataType="string"
+      />
+    </DataGrid>
     );
   }
 }
