@@ -8,7 +8,8 @@ import FacebookLogin from 'react-facebook-login';
 import TestComments from './TestComments';
 import TestLoginStatus from './TestLoginStatus';
 
-import Grid from '../DevExtreme/Grid'
+import Grid from '../Grid/Grid'
+import Poster from '../Post/Post'
 
 export default class Facebook extends Component {
     state = {
@@ -57,6 +58,7 @@ render() {
                     <TestLike />
                     <br /> */}
                     <Grid />
+                    <Poster />
                     {/* <Button 
                     variant="outline-primary"
                     >Save To Favorites</Button>{' '} */}

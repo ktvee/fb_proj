@@ -1,20 +1,27 @@
 /*global FB*/
 import React from 'react';
-import DataGrid, { Column, SearchPanel, Grouping, Paging } from 'devextreme-react/data-grid';
+import DataGrid, { Column, SearchPanel, Grouping, Paging, MasterDetail } from 'devextreme-react/data-grid';
+import Image from 'react-bootstrap/Image'
+
+import Images from '../Images/Images'
+
 class Grid extends React.Component {
     constructor(props) {
     super(props);
     this.state = {
-      fbData: null
+      fbData: null,
+      fbPhotos: null
     };
 
-// calling from the api
+// calling from the api for the posts
 FB.api('/170107151801959/feed', 'GET', {}, (response) => {
-    console.log('response: ', response);
+    console.log('response for feed: ', response);
       this.setState({
         'fbData': response.data
       })
-})}
+    }
+  )
+}
 
   render() {
     return (
@@ -24,6 +31,8 @@ FB.api('/170107151801959/feed', 'GET', {}, (response) => {
         keyExpr="id"
         showBorders={true}
         focusedRowEnabled={true}
+        showRowLines={true}
+        showColumnLines={true}
       >
       <SearchPanel 
         visible={true} 
@@ -42,16 +51,20 @@ FB.api('/170107151801959/feed', 'GET', {}, (response) => {
       <Column
         dataField="story"
         dataType="string"
-        cellRender={cellRender}
+        // cellRender={cellRender}
       />
+
+      <MasterDetail
+          enabled={true}
+          component={Images}
+        />
+
     </DataGrid>
     );
   }
 }
-
-function cellRender(data) {
-  console.log(data.row.values)
-  return <img src={data.row.values} />;
-}
-
+// function cellRender(data) {
+//   console.log(data.value)
+//   return <img src={data.value} />;
+// }
 export default Grid;
