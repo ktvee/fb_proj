@@ -1,42 +1,37 @@
 /*global FB*/
 import React from 'react';
-import { markup } from './data.js';
 import HtmlEditor, { Toolbar, MediaResizing, Item } from 'devextreme-react/html-editor';
-import CheckBox from 'devextreme-react/check-box';
 import Button from 'react-bootstrap/Button'
 import $ from 'jquery'
 
 const headerValues = [false, 1, 2, 3, 4, 5];
 
-var message = $('.ql-editor .ql-blank .dx-htmleditor-content').text($(this).val());
+var message = ''
 
+console.log(message)
 
 const created_time = new Date()
 created_time.toUTCString();
 
-
 function postSubmit() {
-    FB.api(
-        '/me',
-        'POST',
-        { "fields":"id,name,posts", "message": this.message },
-        function(response) {
-            console.log('original array: ', response.posts.data)
-            if (message !== response.posts.data) {
-                console.log('this markup is not in the data array')
-                response.posts.data.push({message, created_time});
-                console.log('updated array: ', response.posts.data)
-            }
-        }
-      );
+  FB.api(
+    '/170107151801959/feed',
+    'POST',
+    {"message":message},
+    function(response) {
+        console.log(response)
+    }
+  );
 }
+
 class Poster extends React.Component {
   constructor() {
     super();
     this.state = {
-      isMultiline: true
+      isMultiline: true,
     };
   }
+
   render() {
     return (
       <div className="widget-container">
@@ -44,6 +39,7 @@ class Poster extends React.Component {
           height="500px"
           width="500px"
           defaultValue={message}
+          id="htmlEditor"
         >
           <MediaResizing enabled={true} />
           <Toolbar>
@@ -65,10 +61,6 @@ class Poster extends React.Component {
             <Item name="alignRight" />
             <Item name="alignJustify" />
             <Item name="separator" />
-            <Item
-              widget="dxButton"
-              options={this.toolbarButtonOptions}
-            />
           </Toolbar>
         </HtmlEditor>
         <Button onClick={postSubmit}>Click To Submit</Button>

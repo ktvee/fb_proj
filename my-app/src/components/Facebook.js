@@ -5,10 +5,12 @@ import FacebookLogin from 'react-facebook-login';
 // import TestGroup from './TestGroup';
 // import TestPage from './TestPage';
 // import TestLike from './TestLike';
+import TestShare from './TestShare';
 import TestComments from './TestComments';
+import TestCommunityComments from './TestCommunityComments';
 import TestLoginStatus from './TestLoginStatus';
 
-import Grid from '../Grid/Grid'
+import Grid from '../UserGrid/Grid'
 import Editor from '../Post/Post'
 
 export default class Facebook extends Component {
@@ -58,13 +60,15 @@ render() {
                     <TestLike />
                     <br /> */}
                     <Grid />
-                    <Editor />
+                    {/* <Editor /> */}
+                    <TestShare />
                     {/* <Button 
                     variant="outline-primary"
                     >Save To Favorites</Button>{' '} */}
                 </div>
                 <div>
-                    <TestComments />
+                    {/* <TestComments />
+                    <TestCommunityComments /> */}
                 </div>
             </div>
         </div>
