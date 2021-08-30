@@ -3,6 +3,7 @@ import FacebookLogin from 'react-facebook-login';
 
 import TestShare from './TestShare';
 import TestLoginStatus from './TestLoginStatus';
+import Editor from '../Post/Post';
 
 import Grid from '../UserGrid/Grid'
 
@@ -53,7 +54,7 @@ render() {
                     <TestLike />
                     <br /> */}
                     <Grid />
-                    {/* <Editor /> */}
+                    <Editor />
                     <TestShare />
                     {/* <Button 
                     variant="outline-primary"

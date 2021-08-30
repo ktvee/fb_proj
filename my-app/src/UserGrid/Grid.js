@@ -47,12 +47,11 @@ logEvent(eventName) {
       'POST',
       {"message":message},
       function(response) {
-          console.log('response: ', response);
-          console.log('eventName: ', eventName);
+          console.log('response in initRow: ', response);
+          console.log('eventName in initRow: ', eventName);
       }
     );
   } else {
-    console.log('eventName: ', eventName);
     this.setState((state) => {
     return { events: [eventName].concat(state.events) };
   });
