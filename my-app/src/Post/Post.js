@@ -2,7 +2,6 @@
 import React from 'react';
 import HtmlEditor, { Toolbar, MediaResizing, Item } from 'devextreme-react/html-editor';
 import Button from 'react-bootstrap/Button'
-import $ from 'jquery'
 
 const headerValues = [false, 1, 2, 3, 4, 5];
 

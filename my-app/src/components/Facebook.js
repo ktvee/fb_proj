@@ -1,17 +1,10 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
-// import Button from 'react-bootstrap/Button';
 
-// import TestGroup from './TestGroup';
-// import TestPage from './TestPage';
-// import TestLike from './TestLike';
 import TestShare from './TestShare';
-import TestComments from './TestComments';
-import TestCommunityComments from './TestCommunityComments';
 import TestLoginStatus from './TestLoginStatus';
 
 import Grid from '../UserGrid/Grid'
-import Editor from '../Post/Post'
 
 export default class Facebook extends Component {
     state = {

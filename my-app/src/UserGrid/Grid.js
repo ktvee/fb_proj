@@ -3,56 +3,9 @@
 import React from 'react';
 import DataGrid, { Editing, Button, SearchPanel, Grouping, Paging, Column, Lookup } from 'devextreme-react/data-grid';
 import TestShare from '../components/TestShare.js'
-import CustomStore from 'devextreme/data/custom_store';
 import 'whatwg-fetch';
 
-import Nav from 'react-bootstrap/Nav'
-
 const message = '';
-
-// function handleErrors(response) {
-//     if (!response.ok) {
-//         throw Error(response.statusText);
-//     }
-//     return response;
-// }
-
-// const customDataSource = new CustomStore({
-//   key: 'id',
-//   load: (loadOptions) => {
-//       // ...
-//   },
-//   insert: (values) => {
-//       return fetch('https://mydomain.com/MyDataService', {
-//           method: 'POST',
-//           body: JSON.stringify(values),
-//           headers:{
-//               'Content-Type': 'application/json'
-//           }
-//       })
-//       .then(handleErrors)
-//       .catch(() => { throw 'Network error' });
-//   },
-//   remove: (key) => {
-//       return fetch(`https://mydomain.com/MyDataService/${encodeURIComponent(key)}`, {
-//           method: 'DELETE'
-//       })
-//       .then(handleErrors)
-//       .catch(() => { throw 'Network error' });
-//   },
-//   update: (key, values) => {
-//       return fetch(`https://mydomain.com/MyDataService/${encodeURIComponent(key)}`, {
-//           method: 'PUT',
-//           body: JSON.stringify(values),
-//           headers:{
-//               'Content-Type': 'application/json'
-//           }
-//       })
-//       .then(handleErrors)
-//       .catch(() => { throw 'Network error' });
-//   }
-// });
-
 class Grid extends React.Component {
     constructor(props) {
     super(props);
@@ -88,17 +41,22 @@ class Grid extends React.Component {
 }
 
 logEvent(eventName) {
-  FB.api(
-    '/170107151801959/feed',
-    'POST',
-    {"message":message},
-    function(response) {
-        console.log(response)
-    }
-  );
+  if (this.onInitNewRow) {
+    FB.api(
+      '/170107151801959/feed',
+      'POST',
+      {"message":message},
+      function(response) {
+          console.log('response: ', response);
+          console.log('eventName: ', eventName);
+      }
+    );
+  } else {
+    console.log('eventName: ', eventName);
     this.setState((state) => {
     return { events: [eventName].concat(state.events) };
   });
+}
 }
 
 clearEvents() {
@@ -116,7 +74,6 @@ render() {
         wordWrapEnabled={true}
         focusedRowEnabled={true}
         showRowLines={true}
-        cellRender={cellRender}
         showColumnLines={true}
         onRowValidating={this.onRowValidating}
         onEditorPreparing={this.onEditorPreparing}
@@ -158,26 +115,20 @@ render() {
           <ul>
             {this.state.events.map((event, index) => <li key={index}>{event}</li>)}
           </ul>
-        </div>
+      </div>
+
         <Column dataField="created_time" caption="Time Created" />
         <Column dataField="id" caption="Post ID" />
         <Column dataField="message" caption="Message Body" />
         <Column dataField="story" caption="Story" />
-        <Column dataField="" caption="Favorite" />
+        <Column caption="Favorite"> <Button><TestShare /></Button> </Column>
 
         <Lookup dataSource={this.state.fbData} displayExpr="Search Posts" valueExpr="ID" />
-
-
     </DataGrid>
 
     </React.Fragment>
     );
   }
-}
-
-function cellRender(data) {
-  console.log(data.value)
-  return <img src={data.value} />;
 }
 
 export default Grid;
