@@ -1,85 +1,42 @@
-import React, { Component } from 'react'
+/*global FB*/
 
-var name = window.prompt('What is your name?');
-var age = window.prompt('How old are you?');
+import React from 'react'
+import { useFormik } from 'formik';
 
-document.write('Hey ' + name + ' how are you today?.  Do you like being ' + age + ' years old?')
+const Poster = () => {
+  // Pass the useFormik() hook initial form values and a submit function that will
+  // be called when the form is submitted
+  const formik = useFormik({
+    initialValues: {
+      text: '',
+    },
+    onSubmit: values => {
+      console.log(JSON.stringify(values, null, 2));
+      FB.api(
+        '/170107151801959/feed',
+        'POST',
+        {"message" : formik.values.text},
+        function(response) {
+            console.log('response: ', response);
+        }
+      );
+    },
+  });
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="text">Post to Your Facebook Page: </label>
+      <input
+        id="text"
+        name="text"
+        type="text"
+        placeholder="Write Your Text Here"
+        onChange={formik.handleChange}
+        value={formik.values.text}
+      />
 
-export default class Post extends Component {
-  render() {
-    return (
-      <div>
+      <button type="submit">Submit To Facebook</button>
+    </form>
+  );
+};
 
-      </div>
-    )
-  }
-}
-
-// /*global FB*/
-// import React from 'react';
-// import HtmlEditor, { Toolbar, MediaResizing, Item } from 'devextreme-react/html-editor';
-// import Button from 'react-bootstrap/Button'
-
-// const headerValues = [false, 1, 2, 3, 4, 5];
-// var message = '';
-// const created_time = new Date()
-// created_time.toUTCString();
-
-// function postSubmit() {
-//   FB.api(
-//     '/170107151801959/feed',
-//     'POST',
-//     {"message":message},
-//     function(response) {
-//         console.log(response)
-//     }
-//   );
-// }
-
-// class Poster extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {
-//       isMultiline: true,
-//     };
-//   }
-
-//   render() {
-//     return (
-//       <div className="widget-container">
-//         <HtmlEditor
-//           height="500px"
-//           width="500px"
-//           defaultValue={message}
-//           id="htmlEditor"
-//         >
-//           <MediaResizing enabled={true} />
-//           <Toolbar>
-//             <Item name="undo" />
-//             <Item name="redo" />
-//             <Item name="separator" />
-//             <Item
-//               name="header"
-//               acceptedValues={headerValues}
-//             />
-//             <Item name="separator" />
-//             <Item name="bold" />
-//             <Item name="italic" />
-//             <Item name="strike" />
-//             <Item name="underline" />
-//             <Item name="separator" />
-//             <Item name="alignLeft" />
-//             <Item name="alignCenter" />
-//             <Item name="alignRight" />
-//             <Item name="alignJustify" />
-//             <Item name="separator" />
-//           </Toolbar>
-//         </HtmlEditor>
-//         <Button onClick={postSubmit}>Click To Submit</Button>
-//       </div>
-      
-//     );
-//   }
-// }
-
-// export default Poster;
+export default Poster;

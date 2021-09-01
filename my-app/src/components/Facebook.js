@@ -47,18 +47,9 @@ render() {
 
             <div className="modules">   
                 <div>
-                    {/* <TestGroup />
-                    <br />
-                    <TestPage />
-                    <br />
-                    <TestLike />
-                    <br /> */}
                     <Grid />
-                    <Editor />
                     <TestShare />
-                    {/* <Button 
-                    variant="outline-primary"
-                    >Save To Favorites</Button>{' '} */}
+                    <Editor />
                 </div>
                 <div>
                     {/* <TestComments />

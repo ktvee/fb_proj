@@ -17,9 +17,6 @@ class Grid extends React.Component {
 
     this.logEvent = this.logEvent.bind(this);
     this.onEditingStart = this.logEvent.bind(this, 'EditingStart');
-    this.onInitNewRow = this.logEvent.bind(this, 'InitNewRow');
-    this.onRowInserting = this.logEvent.bind(this, 'RowInserting');
-    this.onRowInserted = this.logEvent.bind(this, 'RowInserted');
     this.onRowUpdating = this.logEvent.bind(this, 'RowUpdating');
     this.onRowUpdated = this.logEvent.bind(this, 'RowUpdated');
     this.onRowRemoving = this.logEvent.bind(this, 'RowRemoving');
@@ -77,9 +74,6 @@ render() {
         onRowValidating={this.onRowValidating}
         onEditorPreparing={this.onEditorPreparing}
         onEditingStart={this.onEditingStart}
-        onInitNewRow={this.onInitNewRow}
-        onRowInserting={this.onRowInserting}
-        onRowInserted={this.onRowInserted}
         onRowUpdating={this.onRowUpdating}
         onRowUpdated={this.onRowUpdated}
         onRowRemoving={this.onRowRemoving}
@@ -104,7 +98,7 @@ render() {
         mode="row"
         allowUpdating={true}
         allowDeleting={true}
-        allowAdding={true} />
+      />
 
       <div id="events">
           <div>
