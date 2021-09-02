@@ -3,9 +3,10 @@
 import React from 'react';
 import DataGrid, { Editing, Button, SearchPanel, Grouping, Paging, Column, Lookup } from 'devextreme-react/data-grid';
 import TestShare from '../components/TestShare.js'
+import notify from 'devextreme/ui/notify';
+
 import 'whatwg-fetch';
 
-const message = '';
 class Grid extends React.Component {
     constructor(props) {
     super(props);
@@ -37,22 +38,15 @@ class Grid extends React.Component {
       )
 }
 
+onClick(e) {
+  const buttonText = e.component.option('text');
+  notify(`The ${capitalize(buttonText)} button was clicked`);
+}
+
 logEvent(eventName) {
-  if (this.onInitNewRow) {
-    FB.api(
-      '/170107151801959/feed',
-      'POST',
-      {"message":message},
-      function(response) {
-          console.log('response in initRow: ', response);
-          console.log('eventName in initRow: ', eventName);
-      }
-    );
-  } else {
     this.setState((state) => {
     return { events: [eventName].concat(state.events) };
   });
-}
 }
 
 clearEvents() {
@@ -62,6 +56,8 @@ clearEvents() {
 render() {
     return (
     <React.Fragment>
+    <TestShare />
+
     <DataGrid 
         id="grid-container"
         dataSource={this.state.fbData}
@@ -94,34 +90,36 @@ render() {
         defaultPageSize={10} 
       />
 
-      <Editing
+      {/* <Editing
         mode="row"
         allowUpdating={true}
         allowDeleting={true}
-      />
-
-      <div id="events">
-          <div>
-            <div className="caption">Fired events</div>
-            <Button id="clear" text="Clear" onClick={this.clearEvents} />
-          </div>
-          <ul>
-            {this.state.events.map((event, index) => <li key={index}>{event}</li>)}
-          </ul>
-      </div>
+        allowAdding={true}
+      /> */}
 
         <Column dataField="created_time" caption="Time Created" />
         <Column dataField="id" caption="Post ID" />
         <Column dataField="message" caption="Message Body" />
         <Column dataField="story" caption="Story" />
-        <Column caption="Favorite"> <Button><TestShare /></Button> </Column>
-
+        <Column type="buttons">
+            <Button name="favorite" 
+              width={120}
+              text="Favorite"
+              // type="normal"
+              stylingMode="outlined"
+              onClick={this.onClick}
+              // onClick={console.log('clicked')}
+              />
+        </Column>
         <Lookup dataSource={this.state.fbData} displayExpr="Search Posts" valueExpr="ID" />
     </DataGrid>
-
     </React.Fragment>
     );
   }
+}
+
+function capitalize(text) {
+  // return text.toUpperCase() + text.slice(1);
 }
 
 export default Grid;

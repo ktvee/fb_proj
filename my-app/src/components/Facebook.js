@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import FacebookLogin from 'react-facebook-login';
 
-import TestShare from './TestShare';
 import TestLoginStatus from './TestLoginStatus';
 import Editor from '../Post/Post';
 
@@ -48,7 +47,6 @@ render() {
             <div className="modules">   
                 <div>
                     <Grid />
-                    <TestShare />
                     <Editor />
                 </div>
                 <div>

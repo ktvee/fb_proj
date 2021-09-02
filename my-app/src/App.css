@@ -58,17 +58,14 @@ p {
   rgba(0, 0, 0, 0.09) 0px 32px 16px;
 }
 
-#text {
-  height: 100px;
-  width: 250px;
-  margin: 0 auto;
-  max-width: 300px;
-  border: solid 2px #ccc;
+.form-control {
+  width: 300px;
+  height: 175px;
 }
-
 
 .btn.btn-primary {
   background-color: skyblue !important;
   height: 25px;
   border-radius: 25px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }

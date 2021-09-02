@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { useFormik } from 'formik';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
 
 const Poster = () => {
   // Pass the useFormik() hook initial form values and a submit function that will
@@ -12,6 +14,8 @@ const Poster = () => {
     },
     onSubmit: values => {
       console.log(JSON.stringify(values, null, 2));
+
+
       FB.api(
         '/170107151801959/feed',
         'POST',
@@ -20,19 +24,23 @@ const Poster = () => {
             console.log('response: ', response);
         }
       );
+
+
+
     },
   });
   return (
     <form onSubmit={formik.handleSubmit}>
       <label htmlFor="text">Post to Your Facebook Page: </label>
-      <input
+      <InputGroup
         id="text"
         name="text"
         type="text"
-        placeholder="Write Your Text Here"
         onChange={formik.handleChange}
         value={formik.values.text}
-      />
+      >
+        <FormControl as="textarea" aria-label="textarea" id="text" placeholder="Write Your Text Here"/>
+      </InputGroup>
 
       <button type="submit">Submit To Facebook</button>
     </form>
