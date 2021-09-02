@@ -11,7 +11,7 @@ app.post('/', function (req, res) {
         server: 'RCSOGAKVE621', 
         database: 'fbFaves',
         options: {
-            trustServerCertificate: true,
+            trustServerCertificate: true, 
             instanceName: 'RCSDB',
         }
     };
@@ -19,11 +19,11 @@ app.post('/', function (req, res) {
         if (err) console.log(err);
         var request = new sql.Request();
             request.query(
-                "INSERT INTO fbFaves (created_time,id,message)", function (err, recordset) {
+                "INSERT INTO fbFaves (created_time, id, message)", function (err, recordset) {
             if (err) console.log(err);
                 res.send(recordset);
+            });
     });
-});
 });
 
 var server = app.listen(4741, function () {

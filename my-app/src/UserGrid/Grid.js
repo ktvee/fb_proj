@@ -41,23 +41,19 @@ class Grid extends React.Component {
 
 onClick(e) {
   console.log('e.row.data: ', e.row.data)
-  const buttonText = e.component.option('text');
-  notify(`The ${capitalize(buttonText)} button was clicked`);
+  // const buttonText = e.component.option('text');
+  notify(`Added To Favorites!`);
 
   $.ajax({
     url : "http://localhost:4741/",
     type: "POST",
     data : e.row.data, 
   	async : true, 
-    success: function(response, textStatus, jqXHR) {
-    	console.log('success: ', response);
-    	console.log('success: ', textStatus);
-    	console.log('success: ', jqXHR);
+    success: function() {
+    	console.log('success');
     },
-    error: function (jqXHR, textStatus, errorThrown) {
-		    console.log('error: ', jqXHR);
-      	console.log('error: ', textStatus);
-      	console.log('error: ', errorThrown);
+    error: function () {
+      	console.log('error');
     }
 });
 
