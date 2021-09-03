@@ -1,4 +1,10 @@
 const express = require('express');
+
+let created_time = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
+let message = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
+let id = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
+let story = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
+
 const cors = require('cors');
 var app = express();
 app.use(cors());
@@ -15,11 +21,11 @@ app.post('/', function (req, res) {
             instanceName: 'RCSDB',
         }
     };
-    sql.connect(config, function (err) {
+    sql.connect(config, function (err, e) {
         if (err) console.log(err);
         var request = new sql.Request();
             request.query(
-                "INSERT INTO fbFaves (created_time, id, message)", function (err, recordset) {
+                "INSERT INTO apiData (createdTimeStored, messageStored, idStored, storyStored) VALUES (created_time, message, id, story)", function (err, recordset) {
             if (err) console.log(err);
                 res.send(recordset);
             });

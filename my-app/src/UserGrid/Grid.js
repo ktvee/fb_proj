@@ -5,7 +5,6 @@ import DataGrid, { Editing, Button, SearchPanel, Grouping, Paging, Column, Looku
 import TestShare from '../components/TestShare.js'
 import notify from 'devextreme/ui/notify';
 import $ from 'jquery'
-
 import 'whatwg-fetch';
 
 class Grid extends React.Component {
@@ -39,9 +38,8 @@ class Grid extends React.Component {
       )
 }
 
-onClick(e) {
+onClick(e, jqXHR) {
   console.log('e.row.data: ', e.row.data)
-  // const buttonText = e.component.option('text');
   notify(`Added To Favorites!`);
 
   $.ajax({
@@ -50,14 +48,12 @@ onClick(e) {
     data : e.row.data, 
   	async : true, 
     success: function() {
-    	console.log('success');
+      console.log('success');
     },
     error: function () {
-      	console.log('error');
+      console.log('error')
     }
 });
-
-
 }
 
 logEvent(eventName) {
@@ -107,25 +103,16 @@ render() {
         defaultPageSize={10} 
       />
 
-      {/* <Editing
-        mode="row"
-        allowUpdating={true}
-        allowDeleting={true}
-        allowAdding={true}
-      /> */}
-
-        <Column dataField="created_time" caption="Time Created" />
-        <Column dataField="id" caption="Post ID" />
-        <Column dataField="message" caption="Message Body" />
-        <Column dataField="story" caption="Story" />
+        <Column dataField="created_time" caption="Time Created" dataType="datetime"/>
+        <Column dataField="message" caption="Message Body" dataType="string"/>
+        <Column dataField="id" caption="Post ID" dataType="number"/>
+        <Column dataField="story" caption="Story" dataType="string"/>
         <Column type="buttons">
             <Button name="favorite" 
               width={120}
-              text="Favorite"
-              // type="normal"
+              text="Add to Favorites"
               stylingMode="outlined"
               onClick={this.onClick}
-              // onClick={console.log('clicked')}
               />
         </Column>
         <Lookup dataSource={this.state.fbData} displayExpr="Search Posts" valueExpr="ID" />
@@ -133,10 +120,6 @@ render() {
     </React.Fragment>
     );
   }
-}
-
-function capitalize(text) {
-  // return text.toUpperCase() + text.slice(1);
 }
 
 export default Grid;
