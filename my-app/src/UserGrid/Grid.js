@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 
 
 export default function Grid() {
-  const [fbData, setData] = useState([])
+  const [fbData, setFbData] = useState([])
   const [rowData, setRowData] = useState(null)
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function Grid() {
   const fetchData = () => {
     FB.api('/170107151801959/feed', 'GET', {}, (response) => {
       console.log('GET response: ', response);
-        setData(response.data)
+        setFbData(response.data)
         })
     }
 
@@ -34,12 +34,11 @@ export default function Grid() {
       body: JSON.stringify({ name: rowData }),
     })
       .then((res) => res.json())
-      .then((rowData) => setData(rowData))
+      .then((rowData) => setRowData(rowData))
       .catch((err) => console.log('error'))
   }
 
   const handleChange = (e) => {
-    console.log('handleChange')
     setRowData(e.row.data)
     if (rowData > 0) {
       savePost() 
@@ -57,7 +56,6 @@ export default function Grid() {
         focusedRowEnabled={true}
         showRowLines={true}
         showColumnLines={true}
-        // onSubmit={handleSubmit}
       >
 
       <SearchPanel 
