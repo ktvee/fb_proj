@@ -1,125 +1,86 @@
 /*global FB*/
 
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import DataGrid, { Editing, Button, SearchPanel, Grouping, Paging, Column, Lookup } from 'devextreme-react/data-grid';
-import TestShare from '../components/TestShare.js'
-import notify from 'devextreme/ui/notify';
-import $ from 'jquery'
+
 import 'whatwg-fetch';
 
-class Grid extends React.Component {
-    constructor(props) {
-    super(props);
-    this.state = {
-      fbData: null,
-      fbPhotos: null,
-      events: []
-    };
+import { useHistory } from "react-router-dom";
 
-    this.logEvent = this.logEvent.bind(this);
-    this.onEditingStart = this.logEvent.bind(this, 'EditingStart');
-    this.onRowUpdating = this.logEvent.bind(this, 'RowUpdating');
-    this.onRowUpdated = this.logEvent.bind(this, 'RowUpdated');
-    this.onRowRemoving = this.logEvent.bind(this, 'RowRemoving');
-    this.onRowRemoved = this.logEvent.bind(this, 'RowRemoved');
-    this.onSaving = this.logEvent.bind(this, 'Saving');
-    this.onSaved = this.logEvent.bind(this, 'Saved');
-    this.onEditCanceling = this.logEvent.bind(this, 'EditCanceling');
-    this.onEditCanceled = this.logEvent.bind(this, 'EditCanceled');
-    this.clearEvents = this.clearEvents.bind(this);
 
-    // calling from the api for the posts
+export default function Grid() {
+  const [fbData, setData] = useState([])
+  const [rowData, setRowData] = useState(null)
+
+  useEffect(() => {
+    fetchData() 
+  }, [])
+
+
+  const fetchData = () => {
     FB.api('/170107151801959/feed', 'GET', {}, (response) => {
-        console.log('GET response: ', response);
-          this.setState({
-            'fbData': response.data
-          })
-        }
-      )
-}
-
-onClick(e, jqXHR) {
-  console.log('e.row.data: ', e.row.data)
-  notify(`Added To Favorites!`);
-
-  $.ajax({
-    url : "http://localhost:4741/",
-    type: "POST",
-    data : e.row.data, 
-  	async : true, 
-    success: function() {
-      console.log('success');
-    },
-    error: function () {
-      console.log('error')
+      console.log('GET response: ', response);
+        setData(response.data)
+        })
     }
-});
-}
 
-logEvent(eventName) {
-    this.setState((state) => {
-    return { events: [eventName].concat(state.events) };
-  });
-}
+  const savePost = (e) => {
+    fetch('http://localhost:4741/POST', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: rowData }),
+    })
+      .then((res) => res.json())
+      .then((rowData) => setData(rowData))
+      .catch((err) => console.log('error'))
+  }
 
-clearEvents() {
-  this.setState({ events: [] });
-}
+  const handleChange = (e) => {
+    console.log('handleChange')
+    setRowData(e.row.data)
+    if (rowData > 0) {
+      savePost() 
+    }
+  }
 
-render() {
-    return (
+  return (
     <React.Fragment>
-    <TestShare />
-
-    <DataGrid 
+     <DataGrid 
         id="grid-container"
-        dataSource={this.state.fbData}
+        dataSource={fbData}
         keyExpr="id"
         showBorders={true}
         wordWrapEnabled={true}
         focusedRowEnabled={true}
         showRowLines={true}
         showColumnLines={true}
-        onRowValidating={this.onRowValidating}
-        onEditorPreparing={this.onEditorPreparing}
-        onEditingStart={this.onEditingStart}
-        onRowUpdating={this.onRowUpdating}
-        onRowUpdated={this.onRowUpdated}
-        onRowRemoving={this.onRowRemoving}
-        onRowRemoved={this.onRowRemoved}
-        onSaving={this.onSaving}
-        onSaved={this.onSaved}
-        onEditCanceling={this.onEditCanceling}
-        onEditCanceled={this.onEditCanceled}
+        // onSubmit={handleSubmit}
       >
 
       <SearchPanel 
         visible={true} 
       />
-      <Grouping 
-        autoExpandAll={this.state.autoExpandAll} 
-      />
       <Paging 
         defaultPageSize={10} 
       />
 
-        <Column dataField="created_time" caption="Time Created" dataType="datetime"/>
-        <Column dataField="message" caption="Message Body" dataType="string"/>
-        <Column dataField="id" caption="Post ID" dataType="number"/>
-        <Column dataField="story" caption="Story" dataType="string"/>
+        <Column dataField="created_time" caption="Time Created" />
+        <Column dataField="message" caption="Message Body"/>
+        <Column dataField="id" caption="Post ID"/>
+        <Column dataField="story" caption="Story"/>
         <Column type="buttons">
             <Button name="favorite" 
               width={120}
               text="Add to Favorites"
               stylingMode="outlined"
-              onClick={this.onClick}
+              onClick={handleChange}
               />
         </Column>
-        <Lookup dataSource={this.state.fbData} displayExpr="Search Posts" valueExpr="ID" />
+
     </DataGrid>
     </React.Fragment>
-    );
-  }
+  )
 }
-
-export default Grid;
