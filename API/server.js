@@ -1,16 +1,16 @@
 const express = require('express');
-
-let created_time = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
-let message = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
-let id = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
-let story = require('C:/Users/Katie Veneziano/Documents/GitHub/fb_proj/my-app/.env')
-
+const logger = require('morgan');
 const cors = require('cors');
+
 var app = express();
-app.use(cors());
+app.use(cors(origin = 'http://localhost:4741'));
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+let rowData = [];
 
 app.get('/GET', function (req, res) {
-    console.log(req.params)
     var sql = require("mssql");
     var config = {
         user: 'sa',
@@ -34,28 +34,16 @@ app.get('/GET', function (req, res) {
 });
 
 app.post('/POST', function (req, res) {
-    // console.log(req.params)
-    var sql = require("mssql");
-    var config = {
-        user: 'sa',
-        password: 'rCs!@#=6',
-        server: 'RCSOGAKVE621', 
-        database: 'fbFaves',
-        options: {
-            trustServerCertificate: true, 
-            instanceName: 'RCSDB',
-        }
-    };
-    sql.connect(config, function (err, e) {
-        if (err) console.log(err);
-        var request = new sql.Request();
-            request.query(
-                "INSERT INTO [dbo].[facebookData] ([created]) VALUES " + (`${JSON.stringify(created_time)}`), function (err, recordset) {
-                    console.log(created_time)
-            if (err) console.log(err);
-                res.send(recordset);
-            });
-    });
+
+    const newFavorite = {
+        created_time: req.body.created_time,
+        message: req.body.message,
+        id: req.body.id,
+        story: req.body.story,
+      };
+    
+      rowData.push(newFavorite);
+      console.log(rowData);
 });
 
 var server = app.listen(4741, function () {

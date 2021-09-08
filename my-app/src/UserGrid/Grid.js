@@ -3,46 +3,40 @@
 
 import React, { useState, useEffect } from 'react';
 import DataGrid, { Editing, Button, SearchPanel, Grouping, Paging, Column, Lookup } from 'devextreme-react/data-grid';
+// import notify from 'devextreme/ui/notify';
 
 import 'whatwg-fetch';
 
-import { useHistory } from "react-router-dom";
+import axios from 'axios';
 
 
 export default function Grid() {
   const [fbData, setFbData] = useState([])
-  const [rowData, setRowData] = useState(null)
 
   useEffect(() => {
-    fetchData() 
+    fetchData();
   }, [])
 
 
   const fetchData = () => {
     FB.api('/170107151801959/feed', 'GET', {}, (response) => {
       console.log('GET response: ', response);
-        setFbData(response.data)
+        setFbData(response.data);
         })
     }
 
-  const savePost = (e) => {
-    fetch('http://localhost:4741/POST', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: rowData }),
-    })
-      .then((res) => res.json())
-      .then((rowData) => setRowData(rowData))
-      .catch((err) => console.log('error'))
-  }
-
   const handleChange = (e) => {
-    setRowData(e.row.data)
-    if (rowData > 0) {
-      savePost() 
-    }
+    console.log('selected row: ', e.row.data)
+    
+    let rowData = e.row.data;
+    
+    axios
+      .post('http://localhost:4741/POST', rowData)
+      .then(() => console.log('Row Created'))
+      .catch(err => {
+        console.error(err);
+      });
+    
   }
 
   return (

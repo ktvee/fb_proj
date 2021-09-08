@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import DataGrid, { Pager, Paging, Selection } from 'devextreme-react/data-grid';
+import DataGrid, { Column, Pager, Paging, MasterDetail, Selection, Lookup } from 'devextreme-react/data-grid';
 import axios from 'axios';
 
 const allowedPageSizes = [5, 10, 15, 20];
@@ -14,6 +14,7 @@ useEffect(async () => {
   const result = await axios(
     'http://localhost:4741/GET',
   );
+
   setSavedPost(result.data.recordset);
 }, []);
 
