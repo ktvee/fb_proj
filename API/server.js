@@ -43,8 +43,41 @@ app.post('/POST', function (req, res) {
         id: req.body.id,
         story: req.body.story,
       };
+      JSON.stringify(newFavorite)
       rowData.push(newFavorite);
       console.log(rowData);
+
+      var sql = require("mssql");
+      var config = {
+          user: 'sa',
+          password: 'rCs!@#=6',
+          server: 'RCSOGAKVE621', 
+          database: 'fbFaves',
+          options: {
+              trustServerCertificate: true, 
+              instanceName: 'RCSDB',
+          }
+      };
+      sql.connect(config, function (err, e) {
+          if (err) console.log(err);
+          var request = new sql.Request();
+              request.query(
+                  "INSERT INTO [dbo].[facebookData] VALUES " + `(${newFavorite})`, function (err, recordset) {
+              if (err) console.log(err);
+                  res.send(recordset);
+              });
+      });
+
+
+
+
+
+
+
+
+
+
+
 });
 
 var server = app.listen(4741, function () {
