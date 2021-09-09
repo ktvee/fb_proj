@@ -46,7 +46,6 @@ app.post('/POST', function (req, res) {
       JSON.stringify(newFavorite)
       rowData.push(newFavorite);
       console.log(rowData);
-
       var sql = require("mssql");
       var config = {
           user: 'sa',
@@ -62,7 +61,7 @@ app.post('/POST', function (req, res) {
           if (err) console.log(err);
           var request = new sql.Request();
               request.query(
-                  "INSERT INTO [dbo].[facebookData] VALUES " + `(${newFavorite})`, function (err, recordset) {
+                  "INSERT INTO facebookData VALUES " + `(${newFavorite})`, function (err, recordset) {
               if (err) console.log(err);
                   res.send(recordset);
               });
