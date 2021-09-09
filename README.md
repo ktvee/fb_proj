@@ -21,6 +21,6 @@ When the landing page loads, the user will be prompted with a 'Login with Facebo
 - Axios
 - Facebook SDK, Graph API, Express API
 - "react-facebook" Node package, Formik
-
+ 
 **Unsolved Problems:**
 There seems to be a universal problem in regards to submitting a POST using Facebook's own API, multiple users have reported the same issue and Facebook does not have a reported fix at this time.  A temporary fix is to attempt an Axios call in its place, but that connects to our own API and not Facebook's - which is an issue, considering you need that to successfully pass the data.  The text value is successfully extracted, but the Graph API keeps rejecting it as unauthorized for an unknown reason.
