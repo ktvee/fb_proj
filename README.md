@@ -1,5 +1,6 @@
 # Facebook Feeds Prototype Test Repo
 
+<<<<<<< HEAD
 ## This repo contains both sides of the Facebook Feeds Prototype.
 - CD into 'my-app' for React (client-side)
 - CD into 'API' for Express (backend)
@@ -24,3 +25,6 @@ When the landing page loads, the user will be prompted with a 'Login with Facebo
 
 **Unsolved Problems:**
 There seems to be a universal problem in regards to submitting a POST using Facebook's own API, multiple users have reported the same issue and Facebook does not have a reported fix at this time.  A temporary fix is to attempt an Axios call in its place, but that connects to our own API and not Facebook's - which is an issue, considering you need that to successfully pass the data.  The text value is successfully extracted, but the Graph API keeps rejecting it as unauthorized for an unknown reason.
+=======
+# This is a test repo
+>>>>>>> d100855de7e7ead4e7c2af64e5b62d178de7e05f
