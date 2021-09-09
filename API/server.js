@@ -3,6 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 var app = express();
+
 app.use(cors(origin = 'http://localhost:4741'));
 app.use(logger('dev'));
 app.use(express.json());
@@ -10,6 +11,7 @@ app.use(express.urlencoded({ extended: false }));
 
 let rowData = [];
 
+// Config for the GET request (as of now, the loading of the Favorites component)
 app.get('/GET', function (req, res) {
     var sql = require("mssql");
     var config = {
@@ -33,15 +35,14 @@ app.get('/GET', function (req, res) {
     });
 });
 
+// Config for the POST request (to add a new item to the Favorites)
 app.post('/POST', function (req, res) {
-
     const newFavorite = {
         created_time: req.body.created_time,
         message: req.body.message,
         id: req.body.id,
         story: req.body.story,
       };
-    
       rowData.push(newFavorite);
       console.log(rowData);
 });

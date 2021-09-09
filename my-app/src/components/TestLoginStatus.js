@@ -3,7 +3,7 @@ import { FacebookProvider, Status } from 'react-facebook';
  
 export default class TestLoginStatus extends Component {
   handleChange = (response) => {
-    // console.log(response);
+    console.log(response);
   } 
  
   render() {

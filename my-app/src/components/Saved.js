@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
-import DataGrid, { Column, Pager, Paging, MasterDetail, Selection, Lookup } from 'devextreme-react/data-grid';
+import DataGrid, { Pager, Paging, Selection } from 'devextreme-react/data-grid';
 import axios from 'axios';
 
 const allowedPageSizes = [5, 10, 15, 20];
 const expandedRowKeys = [1];
 
 const Saved = (props) => {
-const [savedPost, setSavedPost] = useState(null);
-const history = useHistory();
+  const [savedPost, setSavedPost] = useState(null);
+  const history = useHistory();
 
-useEffect(async () => {
-  const result = await axios(
-    'http://localhost:4741/GET',
-  );
+  useEffect(async () => {
+    const result = await axios(
+      'http://localhost:4741/GET',
+    );
+    setSavedPost(result.data.recordset);
+  }, []);
 
-  setSavedPost(result.data.recordset);
-}, []);
-
-  return ( <div>
+  return ( 
     <DataGrid
         id="grid-container"
         dataSource={savedPost}
@@ -33,19 +32,16 @@ useEffect(async () => {
         rowAlternationEnabled={true}
         defaultExpandedRowKeys={expandedRowKeys}
         autoExpandAll={false} >
-
-      <Paging
-          enabled={true}
-          defaultPageSize={15} />
-
-      <Pager
-          showPageSizeSelector={true}
-          allowedPageSizes={allowedPageSizes}
-          showInfo={true} />
-
-      <Selection mode="single" />
+        <Paging
+            enabled={true}
+            defaultPageSize={15} />
+        <Pager
+            showPageSizeSelector={true}
+            allowedPageSizes={allowedPageSizes}
+            showInfo={true} />
+        <Selection mode="single" />
     </DataGrid>
-    </div>
   );
-  }
+}
+
 export default Saved;

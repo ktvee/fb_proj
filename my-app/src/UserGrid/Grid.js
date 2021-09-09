@@ -1,23 +1,19 @@
 /*global FB*/
-
-
 import React, { useState, useEffect } from 'react';
-import DataGrid, { Editing, Button, SearchPanel, Grouping, Paging, Column, Lookup } from 'devextreme-react/data-grid';
+import DataGrid, { Button, SearchPanel, Paging, Column } from 'devextreme-react/data-grid';
 // import notify from 'devextreme/ui/notify';
-
 import 'whatwg-fetch';
-
 import axios from 'axios';
-
 
 export default function Grid() {
   const [fbData, setFbData] = useState([])
-
+  
+  // This fires when the DOM finishes loading
   useEffect(() => {
     fetchData();
   }, [])
 
-
+  // The FB API call to get the data for the Grid
   const fetchData = () => {
     FB.api('/170107151801959/feed', 'GET', {}, (response) => {
       console.log('GET response: ', response);
@@ -25,18 +21,14 @@ export default function Grid() {
         })
     }
 
+  // The Express API call to post a selected Grid row to favorites
   const handleChange = (e) => {
     console.log('selected row: ', e.row.data)
-    
     let rowData = e.row.data;
-    
-    axios
-      .post('http://localhost:4741/POST', rowData)
-      .then(() => console.log('Row Created'))
+    axios.post('http://localhost:4741/POST', rowData)
       .catch(err => {
         console.error(err);
       });
-    
   }
 
   return (
@@ -51,14 +43,12 @@ export default function Grid() {
         showRowLines={true}
         showColumnLines={true}
       >
-
-      <SearchPanel 
-        visible={true} 
-      />
-      <Paging 
-        defaultPageSize={10} 
-      />
-
+        <SearchPanel 
+          visible={true} 
+        />
+        <Paging 
+          defaultPageSize={10} 
+        />
         <Column dataField="created_time" caption="Time Created" />
         <Column dataField="message" caption="Message Body"/>
         <Column dataField="id" caption="Post ID"/>
@@ -71,7 +61,6 @@ export default function Grid() {
               onClick={handleChange}
               />
         </Column>
-
     </DataGrid>
     </React.Fragment>
   )

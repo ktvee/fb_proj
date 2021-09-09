@@ -3,13 +3,7 @@ import 'devextreme/dist/css/dx.light.css';
 import React from "react";
 import Facebook from './components/Facebook';
 import Saved from './components/Saved'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css"
 
 export default function App() {
@@ -39,7 +33,5 @@ export default function App() {
         </Switch>
       </div>
     </Router>
-
   );
 }
-
